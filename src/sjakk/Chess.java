@@ -13,8 +13,21 @@ public class Chess {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Game game = new Game();
-        game.startGame();
+        newGame();
+    }
+    
+    private static Game game = null;
+    
+    public static void newGame(){
+        if(game == null){
+            game = new Game();
+            game.startGame();
+        }
+        else {
+            
+            game.initialize();
+            game.startGame();
+        }
     }
     
     public static Player switchPlayer(Player player){

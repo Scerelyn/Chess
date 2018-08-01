@@ -14,15 +14,23 @@ public class Game {
     private Controller controller;
     
     public Game(){
+        initialize();
+    }
+    
+    public void initialize(){
         chessboard = ChessboardBuilder.build();
-        controller = new Controller();
+        if(controller != null){
+            controller.disposeFrame(); // dispose the old window
+        }
+        else {
+            controller = new Controller();
+        }
     }
     
     public void startGame(){
         controller.prepareUI(this);
         controller.showStartupBoard();      
         controller.startGame();
-        
     }
     
     public Chessboard getChessboard(){

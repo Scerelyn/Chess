@@ -28,7 +28,6 @@ public class Controller {
         this.game = game;
         chessboard = game.getChessboard();
         frame = new ChessFrame();
-        
         NavigationPanel navPanel = new NavigationPanel(); 
         boardPanel = new ChessboardPanel(this);
         
@@ -155,5 +154,9 @@ public class Controller {
     private Position mapFromUI(Position p){
        Position mappedPos = new Position(p.getColumn(),p.getRow());
        return mappedPos;
+    }
+    
+    public void disposeFrame(){
+        frame.dispose();
     }
 }
