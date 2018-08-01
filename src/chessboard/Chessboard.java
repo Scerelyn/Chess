@@ -41,7 +41,7 @@ public class Chessboard {
         blackKingPosition = black;
     }
     
-    protected Piece[][] getPieces(){
+    public Piece[][] getPieces(){
         return pieces;
     }
     

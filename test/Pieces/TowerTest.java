@@ -6,6 +6,7 @@ import enums.Player;
 import org.junit.*;
 import static org.junit.Assert.*;
 import Chessboard.Chessboard;
+import Chessboard.ChessboardBuilder;
 import sjakk.Position;
 
 /**
@@ -17,7 +18,7 @@ public class TowerTest {
     
     @Before
     public void setUp() {
-        Chessboard board = new Chessboard();
+        Chessboard board = ChessboardBuilder.build();
         Position pos = new Position(0,0);
         tower = new Tower(Player.WHITE, pos, board);
     }
