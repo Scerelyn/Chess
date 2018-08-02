@@ -3,6 +3,7 @@ package sjakk;
 import Chessboard.Chessboard;
 import Chessboard.ChessboardBuilder;
 import ai.BruteChessAI;
+import enums.GameMode;
 import enums.Player;
 
 /**
@@ -13,12 +14,21 @@ public class Game {
     private Chessboard chessboard;
     private Controller controller;
     
-    public Game(){
-        initialize();
+    public Game(GameMode gm){
+        initialize(gm);
     }
     
-    public void initialize(){
-        chessboard = ChessboardBuilder.build();
+    public void initialize(GameMode gm){
+        switch(gm){
+            case STANDARD:
+                chessboard = ChessboardBuilder.build();
+                break;
+            case CHESS960:
+                chessboard = ChessboardBuilder.build960Mode();
+                break;
+            default:
+                chessboard = ChessboardBuilder.build();
+        }
         if(controller != null){
             controller.disposeFrame(); // dispose the old window
         }

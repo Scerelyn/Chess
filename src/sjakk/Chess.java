@@ -1,6 +1,7 @@
 
 package sjakk;
 
+import enums.GameMode;
 import enums.Player;
 
 /**
@@ -13,19 +14,18 @@ public class Chess {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        newGame();
+        newGame(GameMode.STANDARD);
     }
     
     private static Game game = null;
     
-    public static void newGame(){
+    public static void newGame(GameMode gm){
         if(game == null){
-            game = new Game();
+            game = new Game(gm);
             game.startGame();
         }
         else {
-            
-            game.initialize();
+            game.initialize(gm);
             game.startGame();
         }
     }
