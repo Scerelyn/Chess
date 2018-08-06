@@ -195,9 +195,7 @@ public abstract class ChessboardBuilder {
         Position pos = new Position(7, 0); // initial postion instance, will be overwritten later
         Random r = new Random(); // for randomly selecting from the pieces to place list
         for (int i = 0; i < 8; i++) { //along the length/columns of the bottom row
-            System.out.println("pieces size:" + piecesToPlace.size());
             char toPlace = piecesToPlace.remove(r.nextInt(piecesToPlace.size())); //randomly pick a piece; cool thing is remove returns the removed piece at that index
-            System.out.println("placing: " + toPlace);
 
             //firstly, deal with forced placement case with the bishop: we can hit a case where the bishop runs out of places to be, so on the last possible spot we ignore the random piece and place it
             if (firstBishopPlaced && piecesToPlace.contains('b') && //first bishop places and bishop is left

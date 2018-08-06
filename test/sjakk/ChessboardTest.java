@@ -241,9 +241,76 @@ public class ChessboardTest {
         assertTrue(chessboard.isOutOfBounds(pos));
     }
     
-    @Ignore
     @Test
-    public void testIsInCheck() {
-        fail("Not implemented");
+    public void testChess960Setup(){
+        chessboard = ChessboardBuilder.build960Mode();
+        Piece board[][] = chessboard.getPieces();
+        //check the pawns
+        for (int y = 0; y < 8; y++) {
+            assertTrue(board[1][y] instanceof Pawn);
+            assertTrue(board[6][y] instanceof Pawn);
+        }
+        //now the black row
+        //go along the row and check: 1 queen, 2 knights, 1 rook, then a king, then another rook, a bishop, then another bishop on a different tile
+        // count variables
+        int rookCount = 0;
+        int bishopCount = 0;
+        int firstBishopTile = -1;
+        int knightCount = 0;
+        // find booleans
+        boolean kingFound = false;
+        boolean queenFound = false;
+        //across the board...
+        for(int i = 0; i < 8; i++){
+            Piece blackPiece = board[7][i];
+            Piece whitePiece = board[0][i];
+            if(blackPiece instanceof Queen && whitePiece instanceof Queen){ //sure would be nice if there was a switch for types
+                if(queenFound){ //queen already found
+                    fail("too many queens placed");
+                } else {
+                    queenFound = true;
+                }
+            } else if(blackPiece instanceof Knight && whitePiece instanceof Knight){
+                if(knightCount >= 2){ // already 2 knights found
+                    fail("too many knights placed");
+                } else {
+                    knightCount++;
+                }
+            } else if(blackPiece instanceof Tower && whitePiece instanceof Tower){
+                if(rookCount >= 2){ //2 rooks found already
+                    fail("too many rooks placed");
+                } else if(rookCount == 1){ //exactly 1 rook found before -> we found the second one
+                    if(!kingFound){ //second rook but no king? violates chess960 rules
+                        fail("a king must be inbetween the two rooks");
+                    } else {
+                        rookCount++;
+                    }
+                } else { // 0 rooks found
+                    rookCount++;
+                }
+            } else if(blackPiece instanceof King && whitePiece instanceof King){
+                if(kingFound){ // king already found
+                    fail("too many kings placed");
+                } else if(rookCount != 1) { //anything but 1 rook already found
+                    fail("king is not between 2 rooks");
+                } else {
+                    kingFound = true;
+                }
+            } else if(blackPiece instanceof Bishop && whitePiece instanceof Bishop){
+                if(bishopCount >= 2){ //2 bishops already placed
+                    fail("too many bishops placed");
+                } else if(bishopCount == 1){ // only one bishop placed
+                    if(firstBishopTile % 2 == i % 2){ //if they are both even or both odd -> both are black or both are white
+                        fail("bishops are not on different tiles");
+                    } else {
+                        bishopCount++;
+                    }
+                } else { // no bishops placed
+                    bishopCount++;
+                }
+            } else {
+                fail("invalid piece or white and black are not mirrored");
+            }
+        }
     }
 }
